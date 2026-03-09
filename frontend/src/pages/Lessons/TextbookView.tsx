@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { BookOpen, Send, Award, Sparkles, X, Loader2, ChevronLeft, ChevronDown, ChevronRight } from 'lucide-react';
+import { BookOpen, Send, Award, Sparkles, X, Loader2, ChevronLeft, ChevronDown, ChevronRight, MessageSquareText } from 'lucide-react';
 
 const TextbookView = () => {
   const { bookSlug } = useParams<{ bookSlug: string }>();
@@ -36,13 +36,11 @@ const TextbookView = () => {
         setToc(data);
         
         if (data.length > 0) {
-          // Check for saved progress for this specific book
           const saved = localStorage.getItem('eduagent_last_lesson');
           const lastData = saved ? JSON.parse(saved) : null;
           
           if (lastData && lastData.bookSlug === bookSlug) {
             setActiveModuleId(lastData.moduleId);
-            // Also expand the chapter that contains this module
             const chapterIdx = data.findIndex((item: any) => 
               item.type === 'chapter' && item.modules.some((m: any) => m.id === lastData.moduleId)
             );
@@ -67,8 +65,6 @@ const TextbookView = () => {
   // 2. Fetch Content when module changes
   useEffect(() => {
     if (!activeModuleId) return;
-    
-    // Save "Last Left Off" state
     if (bookSlug) {
       localStorage.setItem('eduagent_last_lesson', JSON.stringify({
         bookSlug,
@@ -89,18 +85,17 @@ const TextbookView = () => {
       }
     };
     fetchModule();
-  }, [activeModuleId]);
+  }, [activeModuleId, bookSlug]);
 
-  // 3. Trigger MathJax Typesetting
+  // 3. Trigger MathJax Typesetting - Also triggered by isChatOpen to prevent layout shift breakages
   useEffect(() => {
     if (content && (window as any).MathJax?.typesetPromise) {
-      // Small timeout to ensure DOM is updated via dangerouslySetInnerHTML
       const timer = setTimeout(() => {
         (window as any).MathJax.typesetPromise().catch((e: any) => console.warn('MathJax Error:', e));
-      }, 50);
+      }, 100);
       return () => clearTimeout(timer);
     }
-  }, [content]);
+  }, [content, isChatOpen]);
 
   const toggleChapter = (idx: number) => {
     const newSet = new Set(expandedChapters);
@@ -114,7 +109,7 @@ const TextbookView = () => {
   }
 
   return (
-    <div className="flex h-[calc(100vh-64px)] overflow-hidden bg-white">
+    <div className="flex h-[calc(100vh-64px)] overflow-hidden bg-white relative">
       {/* TOC Sidebar */}
       <aside className="w-80 border-r border-slate-100 p-6 overflow-y-auto bg-slate-50/20">
         <Link to="/dashboard" className="flex items-center gap-2 text-slate-400 hover:text-blue-600 transition-colors font-black text-[10px] uppercase tracking-widest mb-8">
@@ -181,6 +176,17 @@ const TextbookView = () => {
             <div className="prose prose-slate prose-lg max-w-none text-slate-600 leading-relaxed font-medium space-y-6" dangerouslySetInnerHTML={{ __html: content.html }} />
           </div>
         )}
+
+        {/* Floating Chat Re-open Button */}
+        {!isChatOpen && (
+          <button 
+            onClick={() => setIsChatOpen(true)}
+            className="fixed bottom-8 right-8 bg-blue-600 text-white p-4 rounded-2xl shadow-2xl shadow-blue-200 hover:scale-110 active:scale-95 transition-all z-50 flex items-center gap-3 font-black text-sm"
+          >
+            <MessageSquareText size={20} />
+            Ask Tutor
+          </button>
+        )}
       </main>
 
       {/* Tutor Sidebar */}
@@ -188,7 +194,7 @@ const TextbookView = () => {
         <div className="p-6 border-b border-slate-50 min-w-[320px]">
           <div className="flex items-center justify-between mb-4">
             <span className="text-[10px] text-emerald-500 font-black uppercase tracking-widest">Tutor Live</span>
-            <button onClick={() => setIsChatOpen(false)}><X size={18} className="text-slate-400" /></button>
+            <button onClick={() => setIsChatOpen(false)} className="p-1 hover:bg-slate-50 rounded-lg transition-colors"><X size={18} className="text-slate-400" /></button>
           </div>
           <h3 className="font-black text-slate-900 text-sm">Socratic Tutor</h3>
           <p className="text-[10px] text-slate-400 font-bold uppercase mt-1">Context: {content?.title || 'Loading...'}</p>
