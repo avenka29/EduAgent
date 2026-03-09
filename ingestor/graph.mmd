@@ -1,0 +1,29 @@
+graph TD
+  MODULE_college-algebra-2e["📘 College Algebra 2e"]
+  NODE_prerequisites["📁 Prerequisites"]
+  NODE_m51240["📄 Lesson m51240"]
+  NODE_m51239["📄 Lesson m51239"]
+  NODE_m51241["📄 Lesson m51241"]
+  NODE_m51242["📄 Lesson m51242"]
+  NODE_m51246["📄 Lesson m51246"]
+  NODE_m51247["📄 Lesson m51247"]
+  NODE_m51248["📄 Lesson m51248"]
+  NODE_equations-and-inequalities["📁 Equations and Inequalities"]
+  NODE_m51251["📄 Lesson m51251"]
+  MODULE_college-algebra-2e --> NODE_prerequisites
+  NODE_prerequisites --> NODE_m51240
+  NODE_prerequisites --> NODE_m51239
+  NODE_m51240 -.->|Next| NODE_m51239
+  NODE_prerequisites --> NODE_m51241
+  NODE_m51239 -.->|Next| NODE_m51241
+  NODE_prerequisites --> NODE_m51242
+  NODE_m51241 -.->|Next| NODE_m51242
+  NODE_prerequisites --> NODE_m51246
+  NODE_m51242 -.->|Next| NODE_m51246
+  NODE_prerequisites --> NODE_m51247
+  NODE_m51246 -.->|Next| NODE_m51247
+  NODE_prerequisites --> NODE_m51248
+  NODE_m51247 -.->|Next| NODE_m51248
+  MODULE_college-algebra-2e --> NODE_equations-and-inequalities
+  NODE_prerequisites -.->|Next| NODE_equations-and-inequalities
+  NODE_equations-and-inequalities --> NODE_m51251

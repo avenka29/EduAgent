@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-blue: #2563eb;
+  --color-secondary-emerald: #10b981;
+  --color-accent-amber: #f59e0b;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900;
+}
+
+/* OpenStax Semantic Rendering Styles */
+
+.os-para {
+  @apply mb-6 text-slate-600 leading-relaxed text-lg font-medium;
+}
+
+.os-title {
+  @apply text-3xl font-black mt-16 mb-6 text-slate-900 tracking-tight;
+}
+
+.os-section {
+  @apply my-16 border-t border-slate-100 pt-16;
+}
+
+.os-section:first-of-type {
+  @apply mt-0 border-t-0 pt-0;
+}
+
+/* Examples & Exercises */
+.os-example {
+  @apply bg-indigo-50/50 border border-indigo-100 p-10 rounded-[3rem] my-12 relative overflow-hidden shadow-sm;
+}
+
+.os-example::before {
+  content: "Example";
+  @apply absolute top-0 left-0 bg-indigo-600 text-white px-6 py-2 rounded-br-3xl font-black text-xs uppercase tracking-widest;
+}
+
+.os-exercise {
+  @apply bg-white border-2 border-slate-100 p-10 rounded-[3rem] my-12 shadow-xl shadow-slate-200/50;
+}
+
+.os-note {
+  @apply bg-amber-50/50 border-l-8 border-amber-400 p-8 my-10 rounded-r-[2rem] shadow-sm;
+}
+
+/* Tables */
+.os-table {
+  @apply w-full border-collapse my-12 rounded-[2rem] overflow-hidden shadow-2xl shadow-slate-200/50 border border-slate-100 bg-white;
+}
+
+.os-table th {
+  @apply bg-slate-900 text-white p-6 text-left font-black text-xs uppercase tracking-[0.2em];
+}
+
+.os-table td {
+  @apply p-6 border-b border-slate-50 text-slate-600 font-bold text-sm;
+}
+
+.os-table tr:last-child td {
+  @apply border-b-0;
+}
+
+.os-table tr:hover td {
+  @apply bg-slate-50/50 text-slate-900 transition-colors;
+}
+
+/* Choice Cards (Multiple Choice) */
+.os-choice-card {
+  @apply flex items-center gap-5 p-5 bg-white border-2 border-slate-100 rounded-[1.5rem] hover:border-blue-500 hover:bg-blue-50 transition-all cursor-pointer shadow-sm active:scale-[0.98];
+}
+
+.os-choice-label {
+  @apply w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center font-black text-slate-500 group-hover:bg-blue-600 group-hover:text-white transition-all shrink-0;
+}
+
+.os-choice-content {
+  @apply flex-1 font-bold text-slate-600 group-hover:text-blue-700 text-lg;
+}
+
+/* Terms & Emphasis */
+.os-term {
+  @apply text-blue-600 font-black decoration-2 underline decoration-blue-100 underline-offset-4;
+}
+
+/* Math Block centering */
+.os-equation {
+  @apply my-10 py-8 bg-slate-50/50 rounded-[2rem] flex justify-center items-center overflow-x-auto px-6 border border-slate-100;
+}
+
+/* Image styling */
+.os-image {
+  @apply rounded-[3rem] shadow-2xl my-16 mx-auto block max-w-full border-8 border-white ring-1 ring-slate-100;
+}
+
+/* Custom transitions */
+.animate-in {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
